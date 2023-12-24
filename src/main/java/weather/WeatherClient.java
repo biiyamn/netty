@@ -16,10 +16,11 @@ public class WeatherClient {
         Bootstrap bootstrap=new Bootstrap().group(eventLoopGroup).channel(NioSocketChannel.class).handler(new ChannelInitializer() {
             @Override
             protected void initChannel(Channel ch) throws Exception {
-                ch.pipeline().addLast(weatherClientHanlder);
+                ch.pipeline().addLast(new WeatherDataEncoder());
             }
         });
         ChannelFuture sync = bootstrap.connect("127.0.0.1", 5050).sync();
+        sync.channel().writeAndFlush(new WeatherDataPacket("WC_100",true,new WeatherDataPacket.WeatherData(0L, 10.0F,10,0,0),1,1,"OK"));
         sync.channel().closeFuture().sync();
     }
 }

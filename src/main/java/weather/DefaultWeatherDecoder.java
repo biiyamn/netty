@@ -16,7 +16,7 @@ public class DefaultWeatherDecoder implements WeatherDecoder {
             packet.setVersion(dis.readInt());
             packet.setLength(dis.readInt());
 
-            byte[] deviceIdBytes = new byte[10]; // Adjust size as needed
+            byte[] deviceIdBytes = new byte[6]; // Adjust size as needed
             dis.readFully(deviceIdBytes);
             packet.setDeviceId(new String(deviceIdBytes, StandardCharsets.UTF_8).trim());
 
@@ -38,7 +38,7 @@ public class DefaultWeatherDecoder implements WeatherDecoder {
             packet.setBatteryLevel(dis.readInt());
             packet.setSignalStrength(dis.readInt());
 
-            byte[] statusBytes = new byte[10]; // Adjust size as needed
+            byte[] statusBytes = new byte[2]; // Adjust size as needed
             dis.readFully(statusBytes);
             packet.setDeviceStatus(new String(statusBytes, StandardCharsets.UTF_8).trim());
 

@@ -21,7 +21,8 @@ public class WeatherServer {
             @Override
             protected void initChannel(Channel ch) throws Exception {
                 ChannelPipeline pipeline = ch.pipeline();
-                pipeline.addLast(handler);
+                ch.pipeline().addLast(new WeatherDataDecoder());
+
             }
         });
         ChannelFuture sync = bootstrap.bind(5050).sync();

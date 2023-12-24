@@ -1,6 +1,7 @@
 package weather;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class WeatherDataPacket {
     private int version;
@@ -13,6 +14,21 @@ public class WeatherDataPacket {
     private int batteryLevel;
     private int signalStrength;
     private String deviceStatus;
+
+    public WeatherDataPacket( String deviceId, boolean isEncrypted, WeatherData weatherData, int batteryLevel, int signalStrength, String deviceStatus) {
+        this.version = 1;
+        this.deviceId = deviceId;
+        this.isEncrypted = isEncrypted;
+        this.checksum = 0;
+        this.weatherData = weatherData;
+        this.batteryLevel = batteryLevel;
+        this.signalStrength = signalStrength;
+        this.deviceStatus = deviceStatus;
+        this.timestamp=new Date().toInstant().toEpochMilli();
+    }
+
+    public WeatherDataPacket() {
+    }
 
     public int getVersion() {
         return version;
@@ -102,6 +118,17 @@ public class WeatherDataPacket {
         private int humidity;
         private int windSpeed;
         private int pressure;
+
+        public WeatherData() {
+        }
+
+        public WeatherData(long timestamp, float temperature, int humidity, int windSpeed, int pressure) {
+            this.timestamp = timestamp;
+            this.temperature = temperature;
+            this.humidity = humidity;
+            this.windSpeed = windSpeed;
+            this.pressure = pressure;
+        }
 
         public long getTimestamp() {
             return timestamp;
