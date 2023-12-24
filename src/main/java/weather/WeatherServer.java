@@ -22,6 +22,7 @@ public class WeatherServer {
             protected void initChannel(Channel ch) throws Exception {
                 ChannelPipeline pipeline = ch.pipeline();
                 ch.pipeline().addLast(new WeatherDataDecoder());
+                ch.pipeline().addLast(new  WeatherHandler());
 
             }
         });
