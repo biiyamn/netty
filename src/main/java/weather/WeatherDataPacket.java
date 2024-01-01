@@ -1,15 +1,9 @@
 package weather;
 
-import java.time.ZonedDateTime;
 import java.util.Date;
 
-public class WeatherDataPacket {
-    private int version;
-    private int length;
-    private String deviceId;
-    private long timestamp;
-    private boolean isEncrypted;
-    private int checksum;
+public class WeatherDataPacket extends WeatherHeaderPacket {
+
     private WeatherData weatherData;
     private int batteryLevel;
     private int signalStrength;
@@ -19,7 +13,6 @@ public class WeatherDataPacket {
         this.version = 1;
         this.deviceId = deviceId;
         this.isEncrypted = isEncrypted;
-        this.checksum = 0;
         this.weatherData = weatherData;
         this.batteryLevel = batteryLevel;
         this.signalStrength = signalStrength;
@@ -30,53 +23,7 @@ public class WeatherDataPacket {
     public WeatherDataPacket() {
     }
 
-    public int getVersion() {
-        return version;
-    }
 
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public boolean isEncrypted() {
-        return isEncrypted;
-    }
-
-    public void setEncrypted(boolean encrypted) {
-        isEncrypted = encrypted;
-    }
-
-    public int getChecksum() {
-        return checksum;
-    }
-
-    public void setChecksum(int checksum) {
-        this.checksum = checksum;
-    }
 
     public WeatherData getWeatherData() {
         return weatherData;

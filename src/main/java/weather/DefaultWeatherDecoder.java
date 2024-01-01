@@ -7,7 +7,37 @@ import java.nio.charset.StandardCharsets;
 
 public class DefaultWeatherDecoder implements WeatherDecoder {
     @Override
-    public WeatherDataPacket decode(byte[] data) {
+    public WeatherHeaderPacket decodeHeader(byte[] data) {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(data);
+             DataInputStream dis = new DataInputStream(bais)) {
+
+            WeatherHeaderPacket packet = new WeatherHeaderPacket();
+
+            packet.setVersion(dis.readInt());
+            packet.setLength(dis.readInt());
+
+            byte[] deviceIdBytes = new byte[6]; // Adjust size as needed
+            dis.readFully(deviceIdBytes);
+            packet.setDeviceId(new String(deviceIdBytes, StandardCharsets.UTF_8).trim());
+
+            packet.setTimestamp(dis.readLong());
+
+            packet.setEncrypted(dis.readBoolean());
+            byte[] payload = new byte[20]; // Adjust size as needed
+            dis.readFully(payload);
+           if(packet.isEncrypted()){
+               packet.setEncryptedPayload(payload);
+           }else{
+               packet.setPlaintextPayload(payload);
+           }
+            return packet;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public WeatherDataPacket decodeData(byte[] data) {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(data);
              DataInputStream dis = new DataInputStream(bais)) {
 
@@ -23,7 +53,6 @@ public class DefaultWeatherDecoder implements WeatherDecoder {
             packet.setTimestamp(dis.readLong());
 
             packet.setEncrypted(dis.readBoolean());
-            packet.setChecksum(dis.readInt());
 
             // Deserialize weather data
             WeatherDataPacket.WeatherData weatherData = new WeatherDataPacket.WeatherData();

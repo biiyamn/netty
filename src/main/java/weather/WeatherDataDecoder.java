@@ -16,7 +16,7 @@ public class WeatherDataDecoder extends ByteToMessageDecoder {
         byte[] bytes = new byte[in.readableBytes()];
         in.readBytes(bytes);
 
-        WeatherDataPacket packet = weatherDataDecoder.decode(bytes);
+        WeatherDataPacket packet = weatherDataDecoder.decodeData(bytes);
         out.add(packet);
     }
 }

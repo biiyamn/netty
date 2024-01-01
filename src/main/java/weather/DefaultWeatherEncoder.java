@@ -19,7 +19,6 @@ public class DefaultWeatherEncoder implements WeatherEncoder{
             dos.writeLong(packet.getTimestamp());
 
             dos.writeBoolean(packet.isEncrypted());
-            dos.writeInt(packet.getChecksum());
 
             // Serialize weather data
             // Assuming you have getter methods to retrieve these values
